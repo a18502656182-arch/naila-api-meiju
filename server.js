@@ -7,6 +7,8 @@ app.use(express.json({ limit: "20mb" })); // 原来是 2mb，录音 base64 体�
 const ALLOW_ORIGINS = [
   "https://www.nailaobao.top",
   "https://nailaobao.top",
+  "https://www.dian-eng.top",
+  "https://dian-eng.top",
 ];
 
 app.use(
