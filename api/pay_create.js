@@ -8,6 +8,7 @@ const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const ZPAY_PID = "2026040811105714";
 const ZPAY_KEY = process.env.ZPAY_KEY || "p9AmtnMaUTjFlid4mWqokSby12PiyZCf";
 const ZPAY_GATEWAY = "https://zpayz.cn/submit.php";
+const API_BASE_URL = process.env.API_BASE_URL || "https://naila-api-meiju-production.up.railway.app";
 
 // 套餐配置
 const PLANS = {
@@ -86,7 +87,7 @@ module.exports = async function handler(req, res) {
   // 构造 zpay 跳转参数
   const site_url = return_url?.replace(/\/buy.*/, "") || "https://dian-eng.top";
   const finalReturnUrl = `${site_url}/buy/result?order=${out_trade_no}`;
-  const finalNotifyUrl = notify_url || `https://naila-api-meiju-production.up.railway.app/api/pay_notify`;
+  const finalNotifyUrl = `${API_BASE_URL}/api/pay_notify`;
 
   const params = {
     pid: ZPAY_PID,
