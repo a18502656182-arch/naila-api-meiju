@@ -46,10 +46,16 @@ module.exports = async function handler(req, res) {
 
   const { plan, return_url, notify_url } = req.body || {};
 
-  const planInfo = PLANS[plan];
-  if (!planInfo) return res.status(400).json({ error: "invalid_plan" });
+  if (!PLANS[plan]) return res.status(400).json({ error: "invalid_plan" });
 
   const admin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
+
+  // lifetime价格从数据库读取
+  let planInfo = { ...PLANS[plan] };
+  if (plan === "lifetime") {
+    const { data: cfg } = await admin.from("site_config").select("value").eq("key", "lifetime_price").single();
+    if (cfg?.value) planInfo.amount = cfg.value;
+  }
 
   // 生成唯一订单号和兑换码
   const out_trade_no = genOrderNo();
